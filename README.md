@@ -60,7 +60,7 @@ python main.py
 ```bash
 python3 main.py
 ```
-- Select: 2
+- Select: 2 ( make sure you have inserted your account details inside account.txt file) 
 # Notes
 - Run this bot, and it will update your referrer code to my invite code if you don't have one.
 - This bot have delay every 500 seconds. 
