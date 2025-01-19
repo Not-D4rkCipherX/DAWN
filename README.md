@@ -28,37 +28,28 @@ email:token
 email:token
 ```
 # Installation
-- Install Python For Windows: [Python](https://www.python.org/ftp/python/3.13.0/python-3.13.0-amd64.exe)
-- For Unix: ``apt install python3 python3-pip -y``
-- Install requirements, Windows:
+- Git Clone The Ripository
+- ```bash
+  git clone https://github.com/Not-D4rkCipherX/DAWN.git
+  ```
+  ```bash
+  cd DAWN
+  ```
+- Install requirements:
 ```bash
 pip install -r requirements.txt
 ```
-- Unix:
-```bash
-pip3 install -r requirements.txt
-```
 ### Run the Bot
 - Replace the proxies example in ```proxies.txt``` to your own proxies
-#### Run for single account
-- Windows:
+#### Run for single account:
 ```bash
 python main.py
-```
-- Unix
-```bash
-python3 main.py
 ```
 - Select: 1
 - Then insert your email and token
-#### Run for multi accounts
-- Windows:
+#### Run for multi accounts:
 ```bash
 python main.py
-```
-- Unix
-```bash
-python3 main.py
 ```
 - Select: 2 ( make sure you have inserted your account details inside account.txt file) 
 # Notes
