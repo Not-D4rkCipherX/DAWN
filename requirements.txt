@@ -1,4 +1,0 @@
-curl_cffi
-colorama
-requests
-aiohttp
