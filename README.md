@@ -31,6 +31,9 @@ Note: Dawn Server may be experiencing problems receiving requests, please be pat
 - Open request headers and copy the token. Bearer ``a1b2c3d4ef5g`` < your token
 ![image](https://github.com/user-attachments/assets/2cf7d088-8ecb-4925-a470-5b398cb88e1f)
 - Insert your account details in ``accounts.json``, with each line in the format for each account, like:
+```
+nano accounts.json
+```
   ```bash
   [
       {
