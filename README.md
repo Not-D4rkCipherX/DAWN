@@ -15,11 +15,7 @@ Dawn Validator BOT
 
 Note: Dawn Server may be experiencing problems receiving requests, please be patient.
 
-## Requiremnets
-
-- Make sure you have Python3.9 or higher installed and pip.
-
-## Instalation
+## Installation
 
 1. **Clone The Repositories:**
    ```bash
@@ -48,6 +44,9 @@ Note: Dawn Server may be experiencing problems receiving requests, please be pat
   ]
   ```
 ## PROXY (OPTINAL)
+```
+nano proxy.txt
+```
 - Make sure `proxy.txt` contains data that matches the format expected by the script. Here are examples of file formats:
   ```bash
     ip:port # Default Protcol HTTP.
