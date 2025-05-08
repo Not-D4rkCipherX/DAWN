@@ -25,7 +25,7 @@ Note: Dawn Server may be experiencing problems receiving requests, please be pat
    ```
 
 ## Getting Token
-- Open ``chrome-extension://fpdkjdnhkakefebpekbdhillbhonfjjp/dashboard.html`` in your browser and login
+- Open ``The DAWN Extension`` in your browser and login
 - Press F12 or CTRL+SHIFT+I and Select Network
 - Look for ``getpoint?appid=``
 - Open request headers and copy the token. Bearer ``a1b2c3d4ef5g`` < your token
