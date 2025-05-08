@@ -1,4 +1,4 @@
-from curl_cffi import requests
+import requests
 from fake_useragent import FakeUserAgent
 from datetime import datetime
 from colorama import *
@@ -70,7 +70,7 @@ class Dawn:
         filename = "proxy.txt"
         try:
             if use_proxy_choice == 1:
-                response = await asyncio.to_thread(requests.get, "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/all.txt")
+                response = requests.get("https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/all.txt")
                 response.raise_for_status()
                 content = response.text
                 with open(filename, 'w') as f:
@@ -169,13 +169,13 @@ class Dawn:
         url = f"{self.BASE_API}/api/atom/v1/userreferral/getpoint?appid={app_id}"
         headers = {
             **self.headers,
-            "Authorization": f"Berear {token}",
+            "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
         }
 
         for attempt in range(retries):
             try:
-                response = await asyncio.to_thread(requests.get, url=url, headers=headers, proxy=proxy, timeout=120, impersonate="chrome110")
+                response = requests.get(url=url, headers=headers, proxies={"http": proxy, "https": proxy} if proxy else None, timeout=120)
                 response.raise_for_status()
                 result = response.json()
                 return result["data"]
@@ -190,14 +190,14 @@ class Dawn:
         data = json.dumps({"username":email, "extensionid":"fpdkjdnhkakefebpekbdhillbhonfjjp", "numberoftabs":0, "_v":"1.1.6"})
         headers = {
             **self.headers,
-            "Authorization": f"Berear {token}",
+            "Authorization": f"Bearer {token}",
             "Content-Length": str(len(data)),
             "Content-Type": "application/json",
         }
 
         for attempt in range(retries):
             try:
-                response = await asyncio.to_thread(requests.post, url=url, headers=headers, data=data, proxy=proxy, timeout=120, impersonate="chrome110")
+                response = requests.post(url=url, headers=headers, data=data, proxies={"http": proxy, "https": proxy} if proxy else None, timeout=120)
                 response.raise_for_status()
                 result = response.json()
                 return result["data"]
