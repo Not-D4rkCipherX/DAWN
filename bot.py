@@ -17,6 +17,7 @@ class Dawn:
             "Sec-Fetch-Site": "cross-site",
             "User-Agent": FakeUserAgent().random
         }
+        self.BASE_API = "https://ext-api.dawninternet.com"
         self.proxies = []
         self.proxy_index = 0
         self.account_proxies = {}
@@ -26,18 +27,22 @@ class Dawn:
 
     def log(self, message):
         print(
-            f"{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-            f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}{message}",
+            f"{Fore.CYAN + Style.BRIGHT}╭─[{datetime.now().astimezone(wib).strftime('%x %X %Z')}]{Style.RESET_ALL}\n"
+            f"{Fore.CYAN + Style.BRIGHT}╰──▶{Style.RESET_ALL} {message}",
             flush=True
         )
 
     def welcome(self):
         print(
-            f"""
-        {Fore.GREEN + Style.BRIGHT}Auto Ping {Fore.BLUE + Style.BRIGHT}Dawn - BOT
-            """
-            f"""
-        {Fore.GREEN + Style.BRIGHT}Join Telegram Channel: {Fore.YELLOW + Style.BRIGHT}https://t.me/D4rkCipherX
+            f"""{Fore.BLUE + Style.BRIGHT}
+   ██████╗  █████╗ ██╗    ██╗███╗   ██╗
+   ██╔══██╗██╔══██╗██║    ██║████╗  ██║
+   ██║  ██║███████║██║ █╗ ██║██╔██╗ ██║
+   ██║  ██║██╔══██║██║███╗██║██║╚██╗██║
+   ██████╔╝██║  ██║╚███╔███╔╝██║ ╚████║
+   ╚═════╝ ╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═══╝
+            {Fore.GREEN + Style.BRIGHT}AUTO PING BOT{Style.RESET_ALL}
+            {Fore.YELLOW + Style.BRIGHT}https://t.me/D4rkCipherX{Style.RESET_ALL}
             """
         )
 
@@ -50,7 +55,7 @@ class Dawn:
         filename = "accounts.json"
         try:
             if not os.path.exists(filename):
-                self.log(f"{Fore.RED}File {filename} Not Found.{Style.RESET_ALL}")
+                self.log(f"{Fore.RED}✗ File {filename} not found{Style.RESET_ALL}")
                 return
 
             with open(filename, 'r') as file:
@@ -73,22 +78,22 @@ class Dawn:
                 self.proxies = content.splitlines()
             else:
                 if not os.path.exists(filename):
-                    self.log(f"{Fore.RED + Style.BRIGHT}File {filename} Not Found.{Style.RESET_ALL}")
+                    self.log(f"{Fore.RED + Style.BRIGHT}✗ File {filename} not found{Style.RESET_ALL}")
                     return
                 with open(filename, 'r') as f:
                     self.proxies = f.read().splitlines()
             
             if not self.proxies:
-                self.log(f"{Fore.RED + Style.BRIGHT}No Proxies Found.{Style.RESET_ALL}")
+                self.log(f"{Fore.RED + Style.BRIGHT}✗ No proxies found{Style.RESET_ALL}")
                 return
 
             self.log(
-                f"{Fore.GREEN + Style.BRIGHT}Proxies Total  : {Style.RESET_ALL}"
+                f"{Fore.GREEN + Style.BRIGHT}✓ Proxies loaded: {Style.RESET_ALL}"
                 f"{Fore.WHITE + Style.BRIGHT}{len(self.proxies)}{Style.RESET_ALL}"
             )
         
         except Exception as e:
-            self.log(f"{Fore.RED + Style.BRIGHT}Failed To Load Proxies: {e}{Style.RESET_ALL}")
+            self.log(f"{Fore.RED + Style.BRIGHT}✗ Proxy load failed: {e}{Style.RESET_ALL}")
             self.proxies = []
 
     def check_proxy_schemes(self, proxies):
@@ -130,40 +135,38 @@ class Dawn:
     
     def print_message(self, email, proxy, color, message):
         self.log(
-            f"{Fore.CYAN + Style.BRIGHT}[ Account:{Style.RESET_ALL}"
-            f"{Fore.WHITE + Style.BRIGHT} {self.mask_account(email)} {Style.RESET_ALL}"
-            f"{Fore.MAGENTA + Style.BRIGHT}-{Style.RESET_ALL}"
-            f"{Fore.CYAN + Style.BRIGHT} Proxy: {Style.RESET_ALL}"
-            f"{Fore.WHITE + Style.BRIGHT}{proxy}{Style.RESET_ALL}"
-            f"{Fore.MAGENTA + Style.BRIGHT} - {Style.RESET_ALL}"
-            f"{Fore.CYAN + Style.BRIGHT}Status:{Style.RESET_ALL}"
-            f"{color + Style.BRIGHT} {message} {Style.RESET_ALL}"
-            f"{Fore.CYAN + Style.BRIGHT}]{Style.RESET_ALL}"
+            f"{Fore.MAGENTA + Style.BRIGHT}Account:{Style.RESET_ALL} "
+            f"{Fore.CYAN + Style.BRIGHT}{self.mask_account(email)}{Style.RESET_ALL} | "
+            f"{Fore.MAGENTA + Style.BRIGHT}Proxy:{Style.RESET_ALL} "
+            f"{Fore.CYAN + Style.BRIGHT}{proxy if proxy else 'No Proxy'}{Style.RESET_ALL}\n"
+            f"{Fore.MAGENTA + Style.BRIGHT}Status:{Style.RESET_ALL} "
+            f"{color + Style.BRIGHT}{message}{Style.RESET_ALL}"
         )
 
     def print_question(self):
         while True:
             try:
-                print("1. Run With Monosans Proxy")
-                print("2. Run With Private Proxy")
-                print("3. Run Without Proxy")
-                choose = int(input("Choose [1/2/3] -> ").strip())
+                print(f"{Fore.YELLOW + Style.BRIGHT}Proxy Options:{Style.RESET_ALL}")
+                print(f"{Fore.GREEN + Style.BRIGHT}1. {Fore.CYAN}Use Monosans Proxy{Style.RESET_ALL}")
+                print(f"{Fore.GREEN + Style.BRIGHT}2. {Fore.CYAN}Use Private Proxy{Style.RESET_ALL}")
+                print(f"{Fore.GREEN + Style.BRIGHT}3. {Fore.CYAN}No Proxy{Style.RESET_ALL}")
+                choose = int(input(f"{Fore.YELLOW + Style.BRIGHT}Select option [1/2/3]: {Style.RESET_ALL}").strip())
 
                 if choose in [1, 2, 3]:
                     proxy_type = (
-                        "Run With Monosans Proxy" if choose == 1 else 
-                        "Run With Private Proxy" if choose == 2 else 
-                        "Run Without Proxy"
+                        "Monosans Proxy" if choose == 1 else 
+                        "Private Proxy" if choose == 2 else 
+                        "No Proxy"
                     )
-                    print(f"{Fore.GREEN + Style.BRIGHT}{proxy_type} Selected.{Style.RESET_ALL}")
+                    print(f"{Fore.GREEN + Style.BRIGHT}✓ Selected: {proxy_type}{Style.RESET_ALL}")
                     return choose
                 else:
-                    print(f"{Fore.RED + Style.BRIGHT}Please enter either 1, 2 or 3.{Style.RESET_ALL}")
+                    print(f"{Fore.RED + Style.BRIGHT}✗ Invalid option. Choose 1, 2 or 3{Style.RESET_ALL}")
             except ValueError:
-                print(f"{Fore.RED + Style.BRIGHT}Invalid input. Enter a number (1, 2 or 3).{Style.RESET_ALL}")
+                print(f"{Fore.RED + Style.BRIGHT}✗ Invalid input. Enter a number{Style.RESET_ALL}")
 
     async def user_data(self, app_id: str, email: str, token: str, proxy=None, retries=5):
-        url = f"https://ext-api.dawninternet.com/api/atom/v1/userreferral/getpoint?appid={app_id}"
+        url = f"{self.BASE_API}/api/atom/v1/userreferral/getpoint?appid={app_id}"
         headers = {
             **self.headers,
             "Authorization": f"Berear {token}",
@@ -180,11 +183,11 @@ class Dawn:
                 if attempt < retries - 1:
                     await asyncio.sleep(5)
                     continue
-                return self.print_message(email, proxy, Fore.YELLOW, f"GET Earning Data Failed: {Fore.RED+Style.BRIGHT}{str(e)}")
+                return self.print_message(email, proxy, Fore.YELLOW, f"✗ Failed to get data: {str(e)}")
 
     async def send_keepalive(self, app_id: str, email: str, token: str, use_proxy: bool, proxy=None, retries=5):
-        url = f"https://ext-api.dawninternet.com/chromeapi/dawn/v1/userreward/keepalive?appid={app_id}"
-        data = json.dumps({"username":email, "extensionid":"fpdkjdnhkakefebpekbdhillbhonfjjp", "numberoftabs":0, "_v":"1.1.5"})
+        url = f"{self.BASE_API}/chromeapi/dawn/v1/userreward/keepalive?appid={app_id}"
+        data = json.dumps({"username":email, "extensionid":"fpdkjdnhkakefebpekbdhillbhonfjjp", "numberoftabs":0, "_v":"1.1.6"})
         headers = {
             **self.headers,
             "Authorization": f"Berear {token}",
@@ -196,12 +199,13 @@ class Dawn:
             try:
                 response = await asyncio.to_thread(requests.post, url=url, headers=headers, data=data, proxy=proxy, timeout=120, impersonate="chrome110")
                 response.raise_for_status()
-                return response.json()
+                result = response.json()
+                return result["data"]
             except Exception as e:
                 if attempt < retries - 1:
                     await asyncio.sleep(5)
                     continue
-                self.print_message(email, proxy, Fore.RED, f"PING Failed: {Fore.YELLOW+Style.BRIGHT}{str(e)}")
+                self.print_message(email, proxy, Fore.RED, f"✗ Ping failed: {str(e)}")
                 proxy = self.rotate_proxy_for_account(email) if use_proxy else None
                 return None
             
@@ -218,33 +222,32 @@ class Dawn:
                 )
 
                 total_points = referral_point + reward_points
-                self.print_message(email, proxy, Fore.WHITE, f"Earning {total_points:.0f} PTS")
+                self.print_message(email, proxy, Fore.GREEN, f"✓ Earning: {total_points:.0f} PTS")
 
-            await asyncio.sleep(5 * 60)    
+            await asyncio.sleep(10 * 60)    
 
     async def process_send_keepalive(self, app_id: str, email: str, token: str, use_proxy: bool):
         while True:
             proxy = self.get_next_proxy_for_account(email) if use_proxy else None
             print(
-                f"{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-                f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}"
-                f"{Fore.BLUE + Style.BRIGHT}Try to Sent Ping...{Style.RESET_ALL}                                    ",
+                f"{Fore.CYAN + Style.BRIGHT}╭─[{datetime.now().astimezone(wib).strftime('%x %X %Z')}]{Style.RESET_ALL}\n"
+                f"{Fore.CYAN + Style.BRIGHT}╰──▶{Style.RESET_ALL} {Fore.BLUE + Style.BRIGHT}Sending ping...{Style.RESET_ALL}",
                 end="\r",
                 flush=True
             )
 
             keepalive = await self.send_keepalive(app_id, email, token, use_proxy, proxy)
-            if keepalive:
-                self.print_message(email, proxy, Fore.GREEN, f"PING Success")
+            if keepalive and keepalive.get("success"):
+                server_name = keepalive.get("servername", "N/A")
+                self.print_message(email, proxy, Fore.GREEN, f"✓ Ping successful | Server: {server_name}")
 
             print(
-                f"{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-                f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}"
-                f"{Fore.BLUE + Style.BRIGHT}Wait For 5 Minutes For Next Ping...{Style.RESET_ALL}",
+                f"{Fore.CYAN + Style.BRIGHT}╭─[{datetime.now().astimezone(wib).strftime('%x %X %Z')}]{Style.RESET_ALL}\n"
+                f"{Fore.CYAN + Style.BRIGHT}╰──▶{Style.RESET_ALL} {Fore.BLUE + Style.BRIGHT}Waiting 10 minutes for next ping...{Style.RESET_ALL}",
                 end="\r",
                 flush=True
             )
-            await asyncio.sleep(5 * 60)
+            await asyncio.sleep(10 * 60)
         
     async def process_accounts(self, app_id: str, email: str, token: str, use_proxy: bool):
         tasks = [
@@ -257,7 +260,7 @@ class Dawn:
         try:
             accounts = self.load_accounts()
             if not accounts:
-                self.log(f"{Fore.RED + Style.BRIGHT}No Accounts Loaded.{Style.RESET_ALL}")
+                self.log(f"{Fore.RED + Style.BRIGHT}✗ No accounts loaded{Style.RESET_ALL}")
                 return
             
             use_proxy_choice = self.print_question()
@@ -269,14 +272,14 @@ class Dawn:
             self.clear_terminal()
             self.welcome()
             self.log(
-                f"{Fore.GREEN + Style.BRIGHT}Account's Total: {Style.RESET_ALL}"
+                f"{Fore.GREEN + Style.BRIGHT}✓ Accounts loaded: {Style.RESET_ALL}"
                 f"{Fore.WHITE + Style.BRIGHT}{len(accounts)}{Style.RESET_ALL}"
             )
 
             if use_proxy:
                 await self.load_proxies(use_proxy_choice)
 
-            self.log(f"{Fore.CYAN + Style.BRIGHT}-{Style.RESET_ALL}"*75)
+            self.log(f"{Fore.CYAN + Style.BRIGHT}━{Style.RESET_ALL}"*50)
 
             while True:
                 tasks = []
@@ -292,7 +295,7 @@ class Dawn:
                 await asyncio.sleep(10)
 
         except Exception as e:
-            self.log(f"{Fore.RED+Style.BRIGHT}Error: {e}{Style.RESET_ALL}")
+            self.log(f"{Fore.RED+Style.BRIGHT}✗ Error: {e}{Style.RESET_ALL}")
 
 if __name__ == "__main__":
     try:
@@ -300,7 +303,6 @@ if __name__ == "__main__":
         asyncio.run(bot.main())
     except KeyboardInterrupt:
         print(
-            f"{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-            f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}"
-            f"{Fore.RED + Style.BRIGHT}[ EXIT ] Dawn - BOT{Style.RESET_ALL}                                      ",                                       
+            f"{Fore.CYAN + Style.BRIGHT}╭─[{datetime.now().astimezone(wib).strftime('%x %X %Z')}]{Style.RESET_ALL}\n"
+            f"{Fore.CYAN + Style.BRIGHT}╰──▶{Style.RESET_ALL} {Fore.RED + Style.BRIGHT}✗ Bot stopped by user{Style.RESET_ALL}"
         )
